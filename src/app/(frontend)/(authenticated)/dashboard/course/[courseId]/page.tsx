@@ -1,0 +1,95 @@
+import { getPayload } from 'payload'
+import configPromise from '@payload-config'
+import { getUser } from '../../../actions/getUser'
+import { Course } from '@/payload-types'
+import { notFound } from 'next/navigation'
+import Link from 'next/link'
+import Image from 'next/image'
+import { ArrowLeft, Pencil, Video } from 'lucide-react'
+
+const CoursePage = async ({ params }: { params: { courseId: string } }) => {
+  const { courseId } = params
+
+  const payload = await getPayload({ config: configPromise })
+
+  const user = await getUser()
+
+  let course: Course | null = null
+
+  try {
+    const res = await payload.findByID({
+      collection: 'courses',
+      id: courseId,
+      overrideAccess: false,
+      user: user,
+    })
+
+    course = res
+  } catch (error) {
+    console.error('Error fetching course:', error)
+    return notFound()
+  }
+
+  if (!course) {
+    console.error('Course not found')
+    return notFound()
+  }
+
+  return (
+    <div className="w-full max-w-4xl mx-auto p-6 flex flex-col gap-6">
+      <div>
+        <Link
+          href="/dashboard"
+          className="inline-flex items-center gap-2 text-sm text-gray-300 hover:text-white transition"
+        >
+          <ArrowLeft className="text-lg" />
+          Back to Dashboard
+        </Link>
+      </div>
+
+      <div className="relative w-full aspect-video overflow-hidden border border-gray-700">
+        <Image src={course.image.url} alt={course.title} fill className="object-cover" />
+      </div>
+
+      <h1 className="text-3xl font-bold">{course.title}</h1>
+      <p className="text-gray-300">{course.description}</p>
+      <div>
+        <h2 className="text-xl font-semibold mt-6 mb-2">Curriculum</h2>
+        <div className="flex flex-col gap-4">
+          {course.curriculum &&
+            course.curriculum.map((block, idx) => {
+              if (block.blockType === 'video') {
+                return (
+                  <div key={idx} className="p-4 border border-gray-700 bg-gray-900">
+                    <div className="text-teal-400 font-medium flex items-center gap-2">
+                      <Video className="text-xl" />
+                      Video: {block.title}
+                    </div>
+                    <div className="text-sm text-gray-400">Duration: {block.duration} min</div>
+                  </div>
+                )
+              }
+
+              if (block.blockType === 'quiz') {
+                return (
+                  <div key={idx} className="p-4 border border-gray-700 bg-gray-900">
+                    <div className="text-yellow-400 font-medium flex items-center gap-2">
+                      <Pencil className="text-xl" />
+                      Quiz: {block.title}
+                    </div>
+                    <div className="text-sm text-gray-400">
+                      Questions: {block.questions?.length || 0}
+                    </div>
+                  </div>
+                )
+              }
+
+              return null
+            })}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default CoursePage

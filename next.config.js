@@ -20,6 +20,9 @@ const nextConfig = {
       }),
     ],
   },
+  turbopack: {
+    resolveExtensions: ['.mdx', '.tsx', '.ts', '.jsx', '.js', '.mjs', '.json'],
+  },
   reactStrictMode: true,
   redirects,
 }
