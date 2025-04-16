@@ -1,6 +1,6 @@
 'use server'
 
-import { Customer } from '@/payload-types'
+import { User } from '@/payload-types'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { cookies } from 'next/headers'
@@ -18,22 +18,23 @@ export interface SignupResponse {
 type Result = {
   exp?: number
   token?: string
-  user?: Customer
+  user?: User
 }
 
 export async function signup({ email, password }: SignupParams): Promise<SignupResponse> {
   const payload = await getPayload({ config })
   try {
     await payload.create({
-      collection: 'customers',
+      collection: 'users',
       data: {
         email,
         password,
+        role: 'student',
       },
     })
 
     const result: Result = await payload.login({
-      collection: 'customers',
+      collection: 'users',
       data: {
         email,
         password,

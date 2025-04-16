@@ -5,9 +5,8 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React, { Suspense } from 'react'
 import PageClient from './page.client'
-import { getUser } from '../(authenticated)/actions/getUser'
-import { Course } from '@/payload-types'
 import Image from 'next/image'
+import { PageRange } from '@/components/PageRange'
 
 export const dynamic = 'force-static'
 export const revalidate = 600
@@ -15,40 +14,39 @@ export const revalidate = 600
 export default async function Page() {
   const payload = await getPayload({ config: configPromise })
 
-  // get the user
-  const user = await getUser()
-
-  // get courses
-  let courses: Course[] = []
-  try {
-    let coursesRes = await payload.find({
-      collection: 'courses',
-      depth: 1,
-      limit: 10,
-      overrideAccess: false,
-      user: user,
-    })
-    courses = coursesRes.docs
-  } catch (e) {
-    console.log(e)
-  }
+  const courses = await payload.find({
+    collection: 'courses',
+    depth: 1,
+    limit: 10,
+    overrideAccess: false,
+  })
 
   return (
-    <div className="flex flex-col mx-auto w-full max-w-4xl p-4 gap-4">
+    <div className="pt-24 pb-24">
       <PageClient />
-
-      <div className="text-xl">
-        Welcome <span className="text-gray-400">{user?.email}</span>
+      <div className="container mb-16">
+        <div className="prose dark:prose-invert max-w-none">
+          <h1>Courses</h1>
+        </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="container mb-8">
+        <PageRange
+          collection="courses"
+          currentPage={courses.page}
+          limit={12}
+          totalDocs={courses.totalDocs}
+        />
+      </div>
+
+      <div className="container grid grid-cols-3 gap-6">
         <Suspense fallback={<div>Loading...</div>}>
-          {courses.map((course) => {
+          {courses.docs.map((course) => {
             return (
               <Link
                 href={`/courses/${course.id}`}
                 key={course.id}
-                className="flex flex-col cursor-pointer relative border border-gray-700 hover:border-white transition ease-in-out duration-100 overflow-hidden"
+                className="flex flex-col cursor-pointer rounded relative border border-gray-700 hover:border-white transition ease-in-out duration-100 overflow-hidden"
               >
                 <div className="relative w-full aspect-video">
                   <Image alt={`${course.title} thumbnail`} src={course.image.url} fill={true} />

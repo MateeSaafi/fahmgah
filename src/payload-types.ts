@@ -63,7 +63,6 @@ export type SupportedTimezones =
 
 export interface Config {
   auth: {
-    customers: CustomerAuthOperations;
     users: UserAuthOperations;
   };
   blocks: {};
@@ -71,7 +70,6 @@ export interface Config {
     pages: Page;
     posts: Post;
     courses: Course;
-    customers: Customer;
     lessons: Lesson;
     modules: Module;
     media: Media;
@@ -92,7 +90,6 @@ export interface Config {
     pages: PagesSelect<false> | PagesSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
     courses: CoursesSelect<false> | CoursesSelect<true>;
-    customers: CustomersSelect<false> | CustomersSelect<true>;
     lessons: LessonsSelect<false> | LessonsSelect<true>;
     modules: ModulesSelect<false> | ModulesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
@@ -120,13 +117,9 @@ export interface Config {
     footer: FooterSelect<false> | FooterSelect<true>;
   };
   locale: null;
-  user:
-    | (Customer & {
-        collection: 'customers';
-      })
-    | (User & {
-        collection: 'users';
-      });
+  user: User & {
+    collection: 'users';
+  };
   jobs: {
     tasks: {
       schedulePublish: TaskSchedulePublish;
@@ -136,24 +129,6 @@ export interface Config {
       };
     };
     workflows: unknown;
-  };
-}
-export interface CustomerAuthOperations {
-  forgotPassword: {
-    email: string;
-    password: string;
-  };
-  login: {
-    email: string;
-    password: string;
-  };
-  registerFirstUser: {
-    email: string;
-    password: string;
-  };
-  unlock: {
-    email: string;
-    password: string;
   };
 }
 export interface UserAuthOperations {
@@ -805,23 +780,6 @@ export interface Course {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "customers".
- */
-export interface Customer {
-  id: number;
-  updatedAt: string;
-  createdAt: string;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  password?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "lessons".
  */
 export interface Lesson {
@@ -862,7 +820,7 @@ export interface Module {
  */
 export interface Participation {
   id: number;
-  customers: number | Customer;
+  users: number | User;
   course: number | Course;
   completed?: boolean | null;
   progress?: number | null;
@@ -1054,10 +1012,6 @@ export interface PayloadLockedDocument {
         value: number | Course;
       } | null)
     | ({
-        relationTo: 'customers';
-        value: number | Customer;
-      } | null)
-    | ({
         relationTo: 'lessons';
         value: number | Lesson;
       } | null)
@@ -1102,15 +1056,10 @@ export interface PayloadLockedDocument {
         value: number | PayloadJob;
       } | null);
   globalSlug?: string | null;
-  user:
-    | {
-        relationTo: 'customers';
-        value: number | Customer;
-      }
-    | {
-        relationTo: 'users';
-        value: number | User;
-      };
+  user: {
+    relationTo: 'users';
+    value: number | User;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -1120,15 +1069,10 @@ export interface PayloadLockedDocument {
  */
 export interface PayloadPreference {
   id: number;
-  user:
-    | {
-        relationTo: 'customers';
-        value: number | Customer;
-      }
-    | {
-        relationTo: 'users';
-        value: number | User;
-      };
+  user: {
+    relationTo: 'users';
+    value: number | User;
+  };
   key?: string | null;
   value?:
     | {
@@ -1368,21 +1312,6 @@ export interface CoursesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "customers_select".
- */
-export interface CustomersSelect<T extends boolean = true> {
-  updatedAt?: T;
-  createdAt?: T;
-  email?: T;
-  resetPasswordToken?: T;
-  resetPasswordExpiration?: T;
-  salt?: T;
-  hash?: T;
-  loginAttempts?: T;
-  lockUntil?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "lessons_select".
  */
 export interface LessonsSelect<T extends boolean = true> {
@@ -1536,7 +1465,7 @@ export interface UsersSelect<T extends boolean = true> {
  * via the `definition` "participation_select".
  */
 export interface ParticipationSelect<T extends boolean = true> {
-  customers?: T;
+  users?: T;
   course?: T;
   completed?: T;
   progress?: T;

@@ -4,9 +4,9 @@ export const Participation: CollectionConfig = {
   slug: 'participation',
   fields: [
     {
-      name: 'customers',
+      name: 'users',
       type: 'relationship',
-      relationTo: 'customers',
+      relationTo: 'users',
       required: true,
     },
     {

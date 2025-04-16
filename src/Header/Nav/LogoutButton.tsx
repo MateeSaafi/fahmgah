@@ -2,10 +2,10 @@
 
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { logout } from '../actions/logout'
 import { Button } from '@/components/ui/button'
+import { logout } from '@/utilities/logout'
 
-export default function LogoutButton() {
+export function LogoutButton() {
   const [isPending, setIsPending] = useState(false)
   const router = useRouter()
 
@@ -18,6 +18,7 @@ export default function LogoutButton() {
 
     if (result.success) {
       router.push('/')
+      console.log('Logout successful')
     } else {
       console.log(result.error || 'Logout failed')
     }
@@ -25,7 +26,13 @@ export default function LogoutButton() {
 
   return (
     <>
-      <Button onClick={handleLogout} size="sm" disabled={isPending}>
+      <Button
+        onClick={handleLogout}
+        className="h-8"
+        size="sm"
+        disabled={isPending}
+        variant="destructive"
+      >
         {isPending ? 'Logging out...' : 'Logout'}
       </Button>
     </>

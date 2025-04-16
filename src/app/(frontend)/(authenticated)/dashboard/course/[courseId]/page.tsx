@@ -1,6 +1,6 @@
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
-import { getUser } from '../../../actions/getUser'
+import { getMeUser } from '@/utilities/getMeUser'
 import { Course } from '@/payload-types'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
@@ -12,7 +12,7 @@ const CoursePage = async ({ params }: { params: { courseId: string } }) => {
 
   const payload = await getPayload({ config: configPromise })
 
-  const user = await getUser()
+  const { user } = await getMeUser()
 
   let course: Course | null = null
 

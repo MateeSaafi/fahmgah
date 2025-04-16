@@ -21,7 +21,6 @@ import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
 import { Modules } from './collections/Modules'
 import { Lessons } from './collections/Lessons'
-import { Customers } from './collections/Customers'
 import { Participation } from './collections/Courses/Participation'
 
 const filename = fileURLToPath(import.meta.url)
@@ -84,18 +83,7 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URI || '',
     },
   }),
-  collections: [
-    Pages,
-    Posts,
-    Courses,
-    Customers,
-    Lessons,
-    Modules,
-    Media,
-    Categories,
-    Users,
-    Participation,
-  ],
+  collections: [Pages, Posts, Courses, Lessons, Modules, Media, Categories, Users, Participation],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins: [

@@ -1,12 +1,12 @@
 import { ReactElement } from 'react'
 import SignupForm from './components/SignupForm'
-import { getUser } from '../(authenticated)/actions/getUser'
 import { redirect } from 'next/navigation'
+import { getMeUser } from '@/utilities/getMeUser'
 
 export default async function page(): Promise<ReactElement> {
-  const user = await getUser()
+  const { token } = await getMeUser()
 
-  if (user) {
+  if (token) {
     redirect('/dashboard')
     return <></>
   }

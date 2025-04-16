@@ -3,12 +3,13 @@
 import React, { ReactElement } from 'react'
 import { redirect } from 'next/navigation'
 import LoginForm from './components/LoginForm'
-import { getUser } from '../(authenticated)/actions/getUser'
+import { getMeUser } from '@/utilities/getMeUser'
 
 export default async function Page(): Promise<ReactElement> {
-  const user = await getUser()
+  const { token } = await getMeUser()
 
-  if (user) {
+  if (token) {
+    console.log(token)
     redirect('/dashboard')
     return <></>
   }

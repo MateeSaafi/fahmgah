@@ -4,13 +4,13 @@ import configPromise from '@payload-config'
 import Image from 'next/image'
 import { Course } from '@/payload-types'
 import Link from 'next/link'
-import { getUser } from '../actions/getUser'
+import { getMeUser } from '@/utilities/getMeUser'
 
 const page = async () => {
   const payload = await getPayload({ config: configPromise })
 
   // get the user
-  const user = await getUser()
+  const { user } = await getMeUser()
 
   // get courses
   let courses: Course[] = []
