@@ -4,9 +4,9 @@ import { redirect } from 'next/navigation'
 import { getMeUser } from '@/utilities/getMeUser'
 
 export default async function page(): Promise<ReactElement> {
-  const { token } = await getMeUser()
+  const { user } = await getMeUser()
 
-  if (token) {
+  if (user) {
     redirect('/dashboard')
     return <></>
   }

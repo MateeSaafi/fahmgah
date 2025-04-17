@@ -1,28 +1,32 @@
 import type { CollectionConfig } from 'payload'
 
-import { authenticated } from '../../access/authenticated'
+import { admin, adminField } from '@/access/admin'
+import { adminOrTeacher } from '@/access/adminOrTeacher'
+import { adminOrSelf } from '@/access/adminOrSelf'
 
 export const Users: CollectionConfig = {
   slug: 'users',
   access: {
-    admin: authenticated,
-    create: authenticated,
-    delete: authenticated,
-    read: authenticated,
-    update: authenticated,
+    admin: adminOrTeacher,
+    create: admin,
+    delete: admin,
+    read: adminOrSelf,
+    update: adminOrSelf,
   },
   admin: {
     defaultColumns: ['name', 'email'],
     useAsTitle: 'name',
   },
-  auth: true,
+  auth: {
+    tokenExpiration: 60 * 60 * 24 * 7, // 7 days
+  },
   fields: [
     {
       name: 'name',
       type: 'text',
     },
     {
-      name: 'role',
+      name: 'roles',
       type: 'select',
       options: [
         {
@@ -38,8 +42,13 @@ export const Users: CollectionConfig = {
           value: 'student',
         },
       ],
-      defaultValue: 'student',
-      required: true,
+      hasMany: true,
+      saveToJWT: true,
+      defaultValue: ['student'],
+      access: {
+        create: adminField,
+        update: adminField,
+      },
     },
   ],
   timestamps: true,

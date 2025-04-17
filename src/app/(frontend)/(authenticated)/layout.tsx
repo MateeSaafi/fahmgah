@@ -7,8 +7,8 @@ interface LayoutProps {
 }
 
 const Layout: FC<LayoutProps> = async ({ children }) => {
-  const { token } = await getMeUser()
-  if (!token) {
+  const { user } = await getMeUser()
+  if (!user) {
     redirect('/login')
     return null
   }

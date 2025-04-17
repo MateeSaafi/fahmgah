@@ -47,13 +47,15 @@ export default async function CoursePage({ params }: Args) {
       <div className="container">
         <h1 className="text-3xl font-bold">{course.title}</h1>
         <p className="mt-4">{course.description}</p>
-        <Image
-          src={course.image.url}
-          alt={course.title}
-          width={800}
-          height={400}
-          className="mt-4 rounded-lg"
-        />
+        {course.image && typeof course.image === 'object' && course.image.url && (
+          <Image
+            src={course.image.url}
+            alt={course.title}
+            width={800}
+            height={400}
+            className="mt-4 rounded-lg"
+          />
+        )}
       </div>
     </article>
   )

@@ -19,6 +19,7 @@ export default function SignupForm(): ReactElement {
     setError(null)
 
     const formData = new FormData(event.currentTarget)
+    const name = formData.get('name') as string
     const email = formData.get('email') as string
     const password = formData.get('password') as string
     const confirmPassword = formData.get('confirmPassword') as string
@@ -46,6 +47,11 @@ export default function SignupForm(): ReactElement {
       <div className="text-3xl">Sign Up</div>
       <div className="w-full mx-auto sm:max-w-sm">
         <form className="flex flex-col gap-4" onSubmit={onSubmit}>
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="name">Name</Label>
+            <Input id="name" name="name" type="name" className="w-full textInput" required />
+          </div>
+
           <div className="flex flex-col gap-2">
             <Label htmlFor="email">Email</Label>
             <Input id="email" name="email" type="email" className="w-full textInput" required />

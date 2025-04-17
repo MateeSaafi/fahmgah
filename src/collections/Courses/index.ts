@@ -36,7 +36,6 @@ export const Courses: CollectionConfig = {
     },
     {
       name: 'image',
-      label: 'Image',
       type: 'relationship',
       relationTo: 'media',
       required: true,

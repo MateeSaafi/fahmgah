@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowLeft, Pencil, Video } from 'lucide-react'
+import StartCourseButton from './_components/StartCourseButton'
 
 const CoursePage = async ({ params }: { params: { courseId: string } }) => {
   const { courseId } = params
@@ -48,7 +49,9 @@ const CoursePage = async ({ params }: { params: { courseId: string } }) => {
       </div>
 
       <div className="relative w-full aspect-video overflow-hidden border border-gray-700">
-        <Image src={course.image.url} alt={course.title} fill className="object-cover" />
+        {course.image && typeof course.image === 'object' && course.image.url && (
+          <Image src={course.image.url} alt={course.title} fill className="object-cover" />
+        )}
       </div>
 
       <h1 className="text-3xl font-bold">{course.title}</h1>
@@ -88,6 +91,7 @@ const CoursePage = async ({ params }: { params: { courseId: string } }) => {
             })}
         </div>
       </div>
+      <StartCourseButton courseId={course.id} />
     </div>
   )
 }

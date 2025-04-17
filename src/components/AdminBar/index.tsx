@@ -43,7 +43,7 @@ export const AdminBar: React.FC<{
   const router = useRouter()
 
   const onAuthChange = React.useCallback((user: PayloadMeUser) => {
-    setShow(Boolean(user?.id))
+    setShow(Boolean(user?.roles?.includes('admin') || user?.roles?.includes('teacher')))
   }, [])
 
   return (

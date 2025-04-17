@@ -47,7 +47,9 @@ const page = async () => {
                 className="flex flex-col cursor-pointer relative border border-gray-700 hover:border-white transition ease-in-out duration-100 overflow-hidden"
               >
                 <div className="relative w-full aspect-video">
-                  <Image alt={`${course.title} thumbnail`} src={course.image.url} fill={true} />
+                  {course.image && typeof course.image === 'object' && course.image.url && (
+                    <Image alt={`${course.title} thumbnail`} src={course.image.url} fill={true} />
+                  )}
                 </div>
               </Link>
             )

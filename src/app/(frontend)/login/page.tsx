@@ -6,10 +6,9 @@ import LoginForm from './components/LoginForm'
 import { getMeUser } from '@/utilities/getMeUser'
 
 export default async function Page(): Promise<ReactElement> {
-  const { token } = await getMeUser()
+  const { user } = await getMeUser()
 
-  if (token) {
-    console.log(token)
+  if (user) {
     redirect('/dashboard')
     return <></>
   }
