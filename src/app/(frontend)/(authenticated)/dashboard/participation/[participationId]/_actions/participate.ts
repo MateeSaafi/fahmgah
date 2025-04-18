@@ -18,7 +18,7 @@ export async function participate(courseId: number) {
   const createdParticipation = await payload.create({
     collection: 'participation',
     data: {
-      users: user.id,
+      user: user.id,
       course: courseId,
       progress: 0,
     },

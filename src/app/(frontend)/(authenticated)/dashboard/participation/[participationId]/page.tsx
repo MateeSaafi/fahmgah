@@ -30,8 +30,6 @@ export default async function ParticipationPage({
     })
 
     participation = res
-
-    console.log('participation', participation)
   } catch (err) {
     console.error('Failed to fetch course:', err)
     return notFound()
@@ -51,7 +49,7 @@ export default async function ParticipationPage({
         </Link>
       </div>
       <h1 className="text-3xl font-bold">{participation.course.title}</h1>
-      {/* <CourseViewer participation={participation} /> */}
+      <CourseViewer participation={participation} />
     </div>
   )
 }

@@ -1,9 +1,8 @@
 'use client'
 
 import { Course, Participation } from '@/payload-types'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import CourseModule from './CourseModule'
-import { markProgress } from '../_actions/markProgress'
 import Curriculum from './Curriculum'
 
 export default function CourseViewer({ participation }: { participation: Participation }) {
@@ -17,11 +16,15 @@ export default function CourseViewer({ participation }: { participation: Partici
 
   return (
     <div className="w-full flex flex-col gap-6">
-      <CourseModule
-        participation={participation}
-        module={course.curriculum[currentProgress]}
-        onCompleted={handleCompleted}
-      />
+      {course.curriculum.length > 0 ? (
+        <CourseModule
+          participation={participation}
+          module={course.curriculum[currentProgress]}
+          onCompleted={handleCompleted}
+        />
+      ) : (
+        <p>Nothing to show</p>
+      )}
       <Curriculum course={course} currentProgress={currentProgress} />
     </div>
   )

@@ -2,9 +2,10 @@
 
 import { Participation } from '@/payload-types'
 import { useEffect, useState } from 'react'
-import { HiArrowRight } from 'react-icons/hi2'
 import NextButton from './NextButton'
 import { markProgress } from '../_actions/markProgress'
+import { ArrowRight } from 'lucide-react'
+import { Checkbox } from '@/components/ui/checkbox'
 
 export default function QuizModule({
   module,
@@ -36,28 +37,26 @@ export default function QuizModule({
     setUserAnswers(temp)
   }
 
-  function checkAnswer(i: number) {
-    let correct = true
-    let length = module.questions[i].answers.length
+  // function checkAnswer(i: number) {
+  //   let correct = true
+  //   let length = module.questions[i].answers.length
 
-    for (let n = 0; n < length; n++) {
-      let val = module.questions[i].answers[n].true
-        ? module.questions[i].answers[n].true
-        : false
-      console.log('answer', i, val, userAnswers[i][n])
-      if (val !== userAnswers[i][n]) {
-        correct = false
-      }
-    }
-    return correct
-  }
+  //   for (let n = 0; n < length; n++) {
+  //     let val = module.questions[i].answers[n].true ? module.questions[i].answers[n].true : false
+  //     console.log('answer', i, val, userAnswers[i][n])
+  //     if (val !== userAnswers[i][n]) {
+  //       correct = false
+  //     }
+  //   }
+  //   return correct
+  // }
 
   function checkAllAnswers() {
-    for (let i = 0; i < module.questions.length; i++) {
-      if (!checkAnswer(i)) {
-        return false
-      }
-    }
+    // for (let i = 0; i < module.questions.length; i++) {
+    //   if (!checkAnswer(i)) {
+    //     return false
+    //   }
+    // }
     return true
   }
 
@@ -94,14 +93,13 @@ export default function QuizModule({
                       className="flex items-center cursor-pointer"
                       key={`${i}-${index}-${answer}`}
                     >
-                      <input
+                      <Checkbox
                         id={'default-checkbox' + index}
-                        type="checkbox"
                         onClick={(e) => {
                           setMessage('')
                           let tempAns = JSON.parse(JSON.stringify(userAnswers))
 
-                          tempAns[i][index] = e.target.checked
+                          // tempAns[i][index] = e.target.checked
                           setUserAnswers(tempAns)
                         }}
                         className={`h-4 w-4 text-teal-500 bg-gray-100 border-gray-300 rounded-full focus:ring-teal-400  focus:ring-2`}
@@ -144,7 +142,7 @@ export default function QuizModule({
             >
               <div className="flex gap-2 items-center">
                 <span>Check Answers</span>
-                <HiArrowRight className="h-4 w-4" />
+                <ArrowRight className="h-4 w-4" />
               </div>
             </button>
           )}

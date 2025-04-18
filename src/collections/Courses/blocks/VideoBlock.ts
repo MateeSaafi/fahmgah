@@ -18,7 +18,7 @@ export const VideoBlock: Block = {
       required: true,
     },
     {
-      name: 'playerUrl',
+      name: 'videoUrl',
       type: 'text',
       required: true,
     },

@@ -1,21 +1,23 @@
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { getMeUser } from '@/utilities/getMeUser'
-import { Course } from '@/payload-types'
+import { Course, Participation } from '@/payload-types'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowLeft, Pencil, Video } from 'lucide-react'
 import StartCourseButton from './_components/StartCourseButton'
+import ParticipationButton from './_components/ParticipationButton'
 
-const CoursePage = async ({ params }: { params: { courseId: string } }) => {
-  const { courseId } = params
+interface CoursePageProps {
+  params: { courseId: string }
+}
 
+const CoursePage = async ({ params }: CoursePageProps) => {
   const payload = await getPayload({ config: configPromise })
-
-  const { user } = await getMeUser()
-
   let course: Course | null = null
+  const { courseId } = params
+  const { user } = await getMeUser()
 
   try {
     const res = await payload.findByID({
@@ -31,10 +33,24 @@ const CoursePage = async ({ params }: { params: { courseId: string } }) => {
     return notFound()
   }
 
-  if (!course) {
-    console.error('Course not found')
-    return notFound()
-  }
+  // check if participation exists
+  const participationResult = await payload.find({
+    collection: 'participation',
+    where: {
+      course: {
+        equals: courseId,
+      },
+      user: {
+        equals: user?.id,
+      },
+    },
+    overrideAccess: false,
+    user: user,
+  })
+
+  const participation: Participation | undefined = participationResult.docs[0]
+
+  if (!course) return notFound()
 
   return (
     <div className="w-full max-w-4xl mx-auto p-6 flex flex-col gap-6">
@@ -91,7 +107,13 @@ const CoursePage = async ({ params }: { params: { courseId: string } }) => {
             })}
         </div>
       </div>
-      <StartCourseButton courseId={course.id} />
+      {participation ? (
+        <div className="w-72">
+          <ParticipationButton participation={participation} />
+        </div>
+      ) : (
+        <StartCourseButton courseId={course.id} />
+      )}
     </div>
   )
 }

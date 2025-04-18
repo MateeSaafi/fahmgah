@@ -4,7 +4,7 @@ export const Participation: CollectionConfig = {
   slug: 'participation',
   fields: [
     {
-      name: 'users',
+      name: 'user',
       type: 'relationship',
       relationTo: 'users',
       required: true,

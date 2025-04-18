@@ -750,7 +750,7 @@ export interface Course {
         | {
             title: string;
             duration: string;
-            playerUrl: string;
+            videoUrl: string;
             id?: string | null;
             blockName?: string | null;
             blockType: 'video';
@@ -820,7 +820,7 @@ export interface Module {
  */
 export interface Participation {
   id: number;
-  users: number | User;
+  user: number | User;
   course: number | Course;
   completed?: boolean | null;
   progress?: number | null;
@@ -1279,7 +1279,7 @@ export interface CoursesSelect<T extends boolean = true> {
           | {
               title?: T;
               duration?: T;
-              playerUrl?: T;
+              videoUrl?: T;
               id?: T;
               blockName?: T;
             };
@@ -1465,7 +1465,7 @@ export interface UsersSelect<T extends boolean = true> {
  * via the `definition` "participation_select".
  */
 export interface ParticipationSelect<T extends boolean = true> {
-  users?: T;
+  user?: T;
   course?: T;
   completed?: T;
   progress?: T;

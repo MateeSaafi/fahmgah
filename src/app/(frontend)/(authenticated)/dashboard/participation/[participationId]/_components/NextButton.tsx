@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { AiOutlineLoading3Quarters } from 'react-icons/ai'
+import { Loader } from 'lucide-react'
 
 export default function NextButton({
   loading,
@@ -11,14 +11,16 @@ export default function NextButton({
   text: string
   onClick: () => void
 }) {
-  return <button
-    onClick={onClick}
-    className="bg-teal-500 relative text-black rounded-md p-2 w-full"
-    disabled={loading}
-  >
-    {text}{' '}
-    <div className="h-full absolute top-0 left-2 flex items-center justify-center ">
-      <AiOutlineLoading3Quarters className={`animate-spin ${loading ? 'block' : 'hidden'}`} />
-    </div>
-  </button>
+  return (
+    <button
+      onClick={onClick}
+      className="bg-teal-500 relative text-black rounded-md p-2 w-full"
+      disabled={loading}
+    >
+      {text}{' '}
+      <div className="h-full absolute top-0 left-2 flex items-center justify-center ">
+        <Loader className={`animate-spin ${loading ? 'block' : 'hidden'}`} />
+      </div>
+    </button>
+  )
 }
