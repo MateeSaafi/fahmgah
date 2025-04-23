@@ -15,9 +15,9 @@ interface CoursePageProps {
 
 const CoursePage = async ({ params }: CoursePageProps) => {
   const payload = await getPayload({ config: configPromise })
-  let course: Course | null = null
-  const { courseId } = params
+  const { courseId } = await params
   const { user } = await getMeUser()
+  let course: Course | null = null
 
   try {
     const res = await payload.findByID({

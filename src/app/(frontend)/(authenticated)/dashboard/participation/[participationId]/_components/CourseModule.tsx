@@ -5,13 +5,13 @@ import QuizModule from './QuizModule'
 import VideoModule from './VideoModule'
 import FinishModule from './FinishModule'
 
-interface ModuleProps {
+interface CourseModuleProps {
   module: any
   participation: Participation
   onCompleted: (nextIndex: number) => void
 }
 
-export default function CourseModule({ module, participation, onCompleted }: ModuleProps) {
+export default function CourseModule({ module, participation, onCompleted }: CourseModuleProps) {
   console.log('CourseModule', module, participation)
 
   switch (module.blockType) {
@@ -22,6 +22,6 @@ export default function CourseModule({ module, participation, onCompleted }: Mod
     case 'finish':
       return <FinishModule participation={participation} />
     default:
-      return <div>Unknown module type</div>
+      return <div>Unknown module type {module.blockType}</div>
   }
 }

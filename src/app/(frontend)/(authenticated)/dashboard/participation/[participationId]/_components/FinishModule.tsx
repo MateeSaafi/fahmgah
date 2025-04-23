@@ -11,10 +11,10 @@ export default function FinishModule({ participation }: { participation: Partici
     try {
       let course: Course = participation.course as Course
 
-      let resp = await axios.get(`/printCertificate/${participation.id}`, {
+      let res = await axios.get(`/printCertificate/${participation.id}`, {
         responseType: 'blob', // THIS is very important, because we need Blob object in order to download PDF
       })
-      const url = window.URL.createObjectURL(resp.data)
+      const url = window.URL.createObjectURL(res.data)
       const link = document.createElement('a')
       link.href = url
       link.setAttribute('download', `Certificate_${course.title.replace(' ', '_')}.pdf`)

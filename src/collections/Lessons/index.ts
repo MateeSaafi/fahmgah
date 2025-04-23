@@ -10,6 +10,8 @@ import { Banner } from '../../blocks/Banner/config'
 import { Code } from '../../blocks/Code/config'
 import { MediaBlock } from '../../blocks/MediaBlock/config'
 import type { CollectionConfig } from 'payload'
+import { teachers } from '@/access/teachers'
+import { anyone } from '@/access/anyone'
 
 export const Lessons: CollectionConfig = {
   slug: 'lessons',
@@ -18,10 +20,10 @@ export const Lessons: CollectionConfig = {
   },
   access: {
     // Typically only teachers should create or modify lessons
-    create: ({ req: { user } }) => Boolean(user && user.role === 'teacher'),
-    update: ({ req: { user } }) => Boolean(user && user.role === 'teacher'),
-    delete: ({ req: { user } }) => Boolean(user && user.role === 'teacher'),
-    read: () => true,
+    create: teachers,
+    update: teachers,
+    delete: teachers,
+    read: anyone,
   },
   fields: [
     {

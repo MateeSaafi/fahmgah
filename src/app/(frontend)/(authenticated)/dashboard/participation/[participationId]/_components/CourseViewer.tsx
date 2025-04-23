@@ -6,9 +6,9 @@ import CourseModule from './CourseModule'
 import Curriculum from './Curriculum'
 
 export default function CourseViewer({ participation }: { participation: Participation }) {
-  const [currentProgress, setCurrentProgress] = useState(participation?.progress || 0)
+  const [currentProgress, setCurrentProgress] = useState(participation?.progress ?? 0)
 
-  const course = participation.course as Course
+  const course: Course = participation.course as Course
 
   async function handleCompleted(nextIndex: number) {
     setCurrentProgress(nextIndex)
@@ -16,7 +16,7 @@ export default function CourseViewer({ participation }: { participation: Partici
 
   return (
     <div className="w-full flex flex-col gap-6">
-      {course.curriculum.length > 0 ? (
+      {course.curriculum ? (
         <CourseModule
           participation={participation}
           module={course.curriculum[currentProgress]}

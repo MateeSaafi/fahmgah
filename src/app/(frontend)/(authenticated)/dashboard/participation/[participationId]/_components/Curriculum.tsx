@@ -21,8 +21,8 @@ export default function Curriculum({
 
   return (
     <div className="flex flex-col gap-4 max-h-[20rem] overflow-y-auto">
-      {course.curriculum?.map((block, idx) => {
-        const isCurrent = idx === currentProgress
+      {course.curriculum?.map((block, index) => {
+        const isCurrent = index === currentProgress
 
         const baseClass = 'p-4 border bg-gray-900 transition-all duration-300 ease-in-out'
         const borderClass = isCurrent ? 'border-2 border-teal-500' : 'border-gray-700'
@@ -34,7 +34,7 @@ export default function Curriculum({
 
         if (block.blockType === 'video') {
           return (
-            <div key={idx} {...commonProps}>
+            <div key={index} {...commonProps}>
               <div className="text-teal-400 font-medium flex items-center gap-2">
                 <Video className="text-xl" />
                 Video: {block.title}
@@ -46,23 +46,12 @@ export default function Curriculum({
 
         if (block.blockType === 'quiz') {
           return (
-            <div key={idx} {...commonProps}>
+            <div key={index} {...commonProps}>
               <div className="text-yellow-400 font-medium flex items-center gap-2">
                 <Pencil className="text-xl" />
                 Quiz: {block.title}
               </div>
               <div className="text-sm text-gray-400">Questions: {block.questions?.length || 0}</div>
-            </div>
-          )
-        }
-
-        if (block.blockType === 'finish') {
-          return (
-            <div key={idx} {...commonProps}>
-              <div className="text-green-400 font-medium flex items-center gap-2">
-                <Flag className="text-xl" />
-                Certificate
-              </div>
             </div>
           )
         }

@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 
-import { admin, adminField } from '@/access/admin'
+import { admins, adminsField } from '@/access/admins'
 import { adminOrTeacher } from '@/access/adminOrTeacher'
 import { adminOrSelf } from '@/access/adminOrSelf'
 
@@ -8,8 +8,8 @@ export const Users: CollectionConfig = {
   slug: 'users',
   access: {
     admin: adminOrTeacher,
-    create: admin,
-    delete: admin,
+    create: admins,
+    delete: admins,
     read: adminOrSelf,
     update: adminOrSelf,
   },
@@ -46,8 +46,8 @@ export const Users: CollectionConfig = {
       saveToJWT: true,
       defaultValue: ['student'],
       access: {
-        create: adminField,
-        update: adminField,
+        create: adminsField,
+        update: adminsField,
       },
     },
   ],
