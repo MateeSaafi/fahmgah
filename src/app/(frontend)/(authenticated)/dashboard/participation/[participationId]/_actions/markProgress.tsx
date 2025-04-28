@@ -7,27 +7,28 @@ import configPromise from '@payload-config'
 
 export async function markProgress(participation: Participation) {
   const payload = await getPayload({ config: configPromise })
+  const { user } = await getMeUser()
 
-  console.log('markProgress', participation)
-
-  // check if participation exists and it has progress
   if (!participation || typeof participation.progress !== 'number') {
     console.error('Participation not found or progress is not set')
     return null
   }
 
-  // increase the progress by 1
-  const newProgress = participation.progress + 1
-  // update the participation
-  const updatedParticipation = await payload.update({
-    collection: 'participation',
-    id: participation.id,
-    data: {
-      progress: newProgress,
-    },
-    user: await getMeUser(),
-    overrideAccess: false,
-  })
+  const nextProgress = participation.progress + 1
+  try {
+    const updateRes = await payload.update({
+      collection: 'participation',
+      id: participation.id,
+      data: {
+        progress: nextProgress,
+      },
+      overrideAccess: false,
+      user: user,
+    })
 
-  return updatedParticipation
+    return updateRes
+  } catch (error) {
+    console.error('Error updating participation progress:', error)
+    return null
+  }
 }

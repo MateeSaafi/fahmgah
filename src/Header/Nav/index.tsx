@@ -11,7 +11,7 @@ export const HeaderNav: React.FC<{ data: HeaderType }> = ({ data }) => {
   const navItems = data?.navItems || []
 
   return (
-    <nav className="py-5 bg-white dark:bg-black/50 backdrop-blur-sm border-b border-b-primary/10 dark:border-b-primary/20 sticky top-0 z-50">
+    <nav className="py-5 bg-white dark:bg-black/50 backdrop-blur-sm border-b border-b-primary/10 dark:border-b-primary/20 sticky mb-24 top-0 z-50">
       <div className="container flex justify-between gap-3 items-center">
         <div className="flex gap-3 items-center">
           <Link href="/">

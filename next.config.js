@@ -4,7 +4,9 @@ import redirects from './redirects.js'
 
 const NEXT_PUBLIC_SERVER_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL
   ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-  : undefined || process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'
+  : undefined ||
+    process.env.NEXT_PUBLIC_SERVER_URL ||
+    (process.env.NODE_ENV === 'development' ? 'http://192.168.0.20:3000' : 'http://localhost:3000')
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -25,6 +27,7 @@ const nextConfig = {
   },
   reactStrictMode: true,
   redirects,
+  allowedDevOrigins: ['*'],
 }
 
 export default withPayload(nextConfig, { devBundleServerPackages: false })

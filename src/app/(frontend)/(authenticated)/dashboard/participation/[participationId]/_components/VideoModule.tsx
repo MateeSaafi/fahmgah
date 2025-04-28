@@ -19,7 +19,7 @@ export default function VideoModule({
   async function handleNextModule() {
     setLoading(true)
     try {
-      let updatedParticipation = await markProgress(participation)
+      const updatedParticipation = await markProgress(participation)
       if (updatedParticipation && updatedParticipation.progress) {
         onCompleted(updatedParticipation.progress)
       } else {
@@ -42,7 +42,6 @@ export default function VideoModule({
           style={{ border: 'none', position: 'absolute', top: 0, height: '100%', width: '100%' }}
           allow="accelerometer; gyroscope; encrypted-media; picture-in-picture;"
           allowFullScreen
-          data-card-controls="1" // helps override Embedly defaults
         />
       </div>
 
